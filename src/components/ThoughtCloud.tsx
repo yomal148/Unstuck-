@@ -7,6 +7,13 @@ const ThoughtCloud: React.FC = () => {
   const [category, setCategory] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Show loading when user is typing
+  const handleInputChange = (text: string) => {
+    setThought(text);
+    setCategory('');
+    setLoading(text.length > 0);
+  };
+
   const handleCategorize = async () => {
     if (!thought.trim()) return;
 
@@ -15,7 +22,11 @@ const ThoughtCloud: React.FC = () => {
 
     try {
       const result = await categorizeThought();
-      setCategory(result)
+      if (result === `The thought "undefined" does not provide enough context`) {
+        setCategory('Sorry, I couldn\'t categorize your thought. Please try rephrasing or adding more detail.');
+        return;
+      }
+      setCategory(`You may be feeling ${result}`)
     } catch (err) {
       console.error(err);
       setCategory('Failed to connect to server');
@@ -33,19 +44,23 @@ const ThoughtCloud: React.FC = () => {
                 style={styles.input}
                 placeholder="Type your thought here..."
                 value={thought}
-                onChangeText={setThought}
+                onChangeText={handleInputChange}
                 multiline
                 placeholderTextColor="#666"
               />
       
               <Button title="Categorize Thought" onPress={handleCategorize} />
       
-              {loading && <ActivityIndicator size="small" color="#555" style={{ marginTop: 10 }} />}
+              {loading && (
+                <View style={styles.cloudLoadingContainer}>
+                  <Text style={styles.cloudEmoji}>☁️</Text>
+                  <Text style={styles.loadingText}>Categorizing...</Text>
+                </View>
+              )}
       
               {category !== '' && !loading && (
                 <View style={styles.thoughtCloud}>
-                  <Text style={styles.thoughtCloudText}>{thought}</Text>
-                  <Text style={styles.categoryText}>Category: {category}</Text>
+                  <Text style={styles.categoryText}>{category}</Text>
                 </View>
               )}
     </View>
@@ -55,6 +70,20 @@ const ThoughtCloud: React.FC = () => {
 export default ThoughtCloud;
 
 const styles = StyleSheet.create({
+  cloudLoadingContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  cloudEmoji: {
+    fontSize: 48,
+    marginBottom: 8,
+    // Optionally add animation using a library or React Native's Animated API
+  },
+  loadingText: {
+    fontSize: 16,
+    color: '#56789a',
+    fontStyle: 'italic',
+  },
   container: {
     padding: 20,
     marginTop: 50,
@@ -93,7 +122,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#1b3a8a',
-    textAlign: 'right',
+    textAlign: 'center',
   },
   label: {
     fontSize: 18,

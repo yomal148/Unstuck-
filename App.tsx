@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import ThoughtScreen from './src/screens/ThoughtScreen' // adjust path if needed
+import ThoughtScreen from './src/screens/ThoughtScreen/ThoughtScreen.tsx' // adjust path if needed
 
 const Stack = createNativeStackNavigator();
 
@@ -12,7 +12,7 @@ function App(): React.JSX.Element {
         <Stack.Screen
           name="Thought"
           component={ThoughtScreen}
-          options={{ title: 'Share Your Thought' }}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>

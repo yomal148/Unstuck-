@@ -1,8 +1,14 @@
-import { openai } from './openaiClient.js';
+import { OPENAI_API_KEY } from '@env';
 
 export async function categorizeThought(thoughtText) {
   try {
-    const response = await openai.chat.completions.create({
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
       model: 'gpt-4o',
       messages: [
         {
@@ -12,7 +18,40 @@ export async function categorizeThought(thoughtText) {
         - Depression
         - Stress
         - Positive
-        - Neutral`,
+        - Anger
+        - Fear
+        - Guilt
+        - Shame
+        - Grief
+        - Loneliness
+        - Hopelessness
+        - Self-doubt
+        - Motivation
+        - Gratitude
+        - Happiness
+        - Excitement
+        - Love
+        - Jealousy
+        - Frustration 
+        - Overwhelm
+        - Boredom
+        - Regret
+        - Embarrassment
+        - Resentment
+        - Contentment
+        - Pride
+        - Inspiration
+        - Worry
+        - Sadness
+        - Disappointment
+        - Relief
+        - Acceptance
+        - Anticipation
+        - Frustration
+        - Empathy
+        - Compassion
+        - Curiosity
+        - Hope`,
         },
         {
           role: 'user',
@@ -21,12 +60,17 @@ export async function categorizeThought(thoughtText) {
       ],
       max_tokens: 10,
       temperature: 0,
-    },
-    {
-      timeout: 5 * 1000,
+      },
+      {
+        timeout: 5 * 1000,
+      })
     });
 
-    const category = response.choices[0].message.content.trim();
+    const data = await response.json();
+    const category = data.choices?.[0]?.message?.content?.trim();
+    //if (category === 'The thought "undefined" does not provide enough context') {
+     // throw new Error("Sorry, I couldn't categorize your thought. Please try rephrasing or adding more detail.");
+    //}
     return category;
   } catch (error) {
     console.error("OpenAI API error:", error);
