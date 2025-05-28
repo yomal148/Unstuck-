@@ -10,7 +10,7 @@ const ThoughtScreen = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={styles.innerContainer}
       >
-        <ThoughtCloud/>
+        <ThoughtCloud />
       </KeyboardAvoidingView>
     </LinearGradient>
   );

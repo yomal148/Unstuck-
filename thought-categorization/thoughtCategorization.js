@@ -47,7 +47,6 @@ export async function categorizeThought(thoughtText) {
         - Relief
         - Acceptance
         - Anticipation
-        - Frustration
         - Empathy
         - Compassion
         - Curiosity

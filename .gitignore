@@ -41,7 +41,7 @@ npm-debug.log
 yarn-error.log
 
 # Ignore environment variables
-thought-categorization/.env
+.env
 
 # fastlane
 #

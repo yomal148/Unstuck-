@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, ActivityIndicator, StyleSheet } from 'react-native';
 import { categorizeThought } from '../../thought-categorization/thoughtCategorization';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation/types';
 
-const ThoughtCloud: React.FC = () => {
+
+const ThoughtCloud = () => {
   const [thought, setThought] = useState('');
   const [category, setCategory] = useState('');
   const [loading, setLoading] = useState(false);
-
+  const [thoughts, setThoughts] = useState<{text: string; category: string}[]>([]);
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Thought'>>();
   // Show loading when user is typing
   const handleInputChange = (text: string) => {
     setThought(text);
@@ -14,6 +19,9 @@ const ThoughtCloud: React.FC = () => {
     setLoading(text.length > 0);
   };
 
+  /**
+   * This function will handle categorizing the thought and store them in supabase.
+   */
   const handleCategorize = async () => {
     if (!thought.trim()) return;
 
@@ -21,12 +29,13 @@ const ThoughtCloud: React.FC = () => {
     setCategory('');
 
     try {
-      const result = await categorizeThought();
+      const result = await categorizeThought(thought);
       if (result === `The thought "undefined" does not provide enough context`) {
         setCategory('Sorry, I couldn\'t categorize your thought. Please try rephrasing or adding more detail.');
         return;
       }
-      setCategory(`You may be feeling ${result}`)
+      setCategory(`${result}`)
+      setThoughts(prev => [...prev, { text: thought, category: result}]); // Add thought to array
     } catch (err) {
       console.error(err);
       setCategory('Failed to connect to server');
@@ -39,7 +48,11 @@ const ThoughtCloud: React.FC = () => {
     <View >
        <Text style={styles.welcomeText}>Welcome to Your Thought Cloud</Text>
               <Text style={styles.subText}>Feel free to peacefully share your thoughts below.</Text>
-      
+
+              <Button
+                  title="View History"
+                  onPress={() => navigation.navigate('History', { thoughts })}
+              />
               <TextInput
                 style={styles.input}
                 placeholder="Type your thought here..."
@@ -48,7 +61,7 @@ const ThoughtCloud: React.FC = () => {
                 multiline
                 placeholderTextColor="#666"
               />
-      
+              {/** Store these thoughts in supabase */}
               <Button title="Categorize Thought" onPress={handleCategorize} />
       
               {loading && (
