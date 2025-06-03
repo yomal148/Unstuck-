@@ -15,18 +15,22 @@
     "@supabase/supabase-js": "^2.49.8",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "libphonenumber-js": "^1.12.8",
     "openai": "^4.102.0",
     "react": "18.2.0",
     "react-native": "0.73.3",
     "react-native-dotenv": "^3.4.11",
     "react-native-gesture-handler": "^2.25.0",
     "react-native-linear-gradient": "^2.8.3",
+    "react-native-phone-number-input": "^2.1.0",
     "react-native-reanimated": "^3.6.2",
     "react-native-safe-area-context": "^5.4.1",
     "react-native-screens": "^4.10.0",
-    "react-native-svg": "^15.12.0"
+    "react-native-svg": "^15.12.0",
+    "react-native-url-polyfill": "^2.0.0"
   },
   "devDependencies": {
+    "@react-native-community/cli": "latest",
     "@babel/core": "^7.20.0",
     "@babel/preset-env": "^7.20.0",
     "@babel/runtime": "^7.20.0",

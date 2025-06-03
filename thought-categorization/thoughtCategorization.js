@@ -23,6 +23,7 @@ export async function categorizeThought(thoughtText) {
         - Guilt
         - Shame
         - Grief
+        - Confusion
         - Loneliness
         - Hopelessness
         - Self-doubt
