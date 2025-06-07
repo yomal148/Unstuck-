@@ -17,7 +17,7 @@ const SignUpScreen = () => {
     const [number, setNumber] = useState('');
     const navigation = useNavigation();
 
-    const handleLogin = async () => {
+    const handleSignUp = async () => {
         if (!email || !value || !name) {
             Alert.alert('Please fill in all fields');
             return;
@@ -89,7 +89,7 @@ const SignUpScreen = () => {
         onChangeText={setName}
       />
       <View style={styles.signup}>
-          <Button title="Sign Up" color='#56789a' onPress={() => handleLogin()}/>
+          <Button title="Sign Up" color='#56789a' onPress={() => handleSignUp()}/>
       </View>
     </View>
       </KeyboardAvoidingView>

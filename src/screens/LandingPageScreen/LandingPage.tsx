@@ -28,7 +28,7 @@ const LandingPage = () => {
             </View>
             <View style={styles.login}>
                 {/*Ignore error line for navigation*/}
-                <Button title="Login" color='#56789a' />
+                <Button title="Login" color='#56789a' onPress={() => navigation.navigate('Login')} />
             </View>
 
         </LinearGradient>

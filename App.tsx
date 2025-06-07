@@ -6,6 +6,7 @@ import ThoughtHistory from './src/screens/ThoughtScreen/ThoughtHistory.tsx';
 // Update the import path and filename to match your actual file structure and casing
 import SignUpScreen from './src/screens/SignUpScreen/SignUp.tsx';
 import LandingPage from './src/screens/LandingPageScreen/LandingPage.tsx';
+import Login from './src/screens/LoginScreen/Login.tsx';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,11 @@ function App(): React.JSX.Element {
         <Stack.Screen
           name="SignUp"
           component={SignUpScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
           options={{ headerShown: false }}
         />
         <Stack.Screen

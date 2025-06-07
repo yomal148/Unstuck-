@@ -6,7 +6,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/types';
 import { insertUserThought } from '../../lib/db';
 
-const ThoughtCloud = () => {
+const ThoughtCloud = ({ user }) => {
   const [thought, setThought] = useState('');
   const [category, setCategory] = useState('');
   const [loading, setLoading] = useState(false);
@@ -36,6 +36,12 @@ const ThoughtCloud = () => {
       }
       setCategory(`${result}`)
       setThoughts(prev => [...prev, { text: thought, category: result}]); // Add thought to array
+
+      await insertUserThought({
+        user_id: user.id,
+        thought: thought,
+        category: result,
+      }); 
     } catch (err) {
       console.error(err);
       setCategory('Failed to connect to server');
@@ -48,7 +54,6 @@ const ThoughtCloud = () => {
     <View >
        <Text style={styles.welcomeText}>Welcome to Your Thought Cloud</Text>
               <Text style={styles.subText}>Feel free to peacefully share your thoughts below.</Text>
-
               <Button
                   title="View History"
                   onPress={() => navigation.navigate('History', { thoughts })}
